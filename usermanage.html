@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./styles/userManage.css">
+    <link rel="stylesheet" href="./styles/menubar.css">
+    <script src="./scripts/userManage.js" defer></script>
+    <script src="./scripts/visibility.js" defer></script>
+    <title>User Management</title>
+
+    <!-- Include jQuery library (you can download it or use a CDN) -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- Include your JavaScript code -->
+    <script src="./scripts/userManage.js" defer></script>
+    <script src="./scripts/visibility.js" defer></script>
+
+<!--    <script>-->
+<!--        // JavaScript code to handle AJAX requests-->
+<!--    -->
+<!--        // Function to add a new user-->
+<!--        function addUser() {-->
+<!--            const newEmployeeID = document.getElementById('newEmployeeID').value;-->
+<!--            const newName = document.getElementById('newName').value;-->
+<!--            const newRole = document.getElementById('newRole').value;-->
+<!--    -->
+<!--            if (newEmployeeID === "" || newName === "" || newRole === "") {-->
+<!--                alert("Please fill in all fields.");-->
+<!--            } else {-->
+<!--                const newUser = {-->
+<!--                    employeeID: newEmployeeID,-->
+<!--                    username: newName,-->
+<!--                    role: newRole-->
+<!--                };-->
+<!--    -->
+<!--                $.ajax({-->
+<!--                    type: 'POST',-->
+<!--                    url: 'addUser.php', // Update with the actual path to your PHP script-->
+<!--                    data: JSON.stringify(newUser),-->
+<!--                    contentType: 'application/json',-->
+<!--                    success: function (data) {-->
+<!--                        if (data.success) {-->
+<!--                            users.push(data.user);-->
+<!--                            addModal.style.display = 'none';-->
+<!--                            populateTable();-->
+<!--                        } else {-->
+<!--                            alert(data.message);-->
+<!--                        }-->
+<!--                    },-->
+<!--                    error: function (error) {-->
+<!--                        console.error('Error:', error);-->
+<!--                        alert('Failed to add user.');-->
+<!--                    }-->
+<!--                });-->
+<!--            }-->
+<!--        }-->
+<!--    -->
+<!--        // Function to edit a user-->
+<!--        function editUser() {-->
+<!--            const employeeID = document.getElementById('editEmployeeID').value;-->
+<!--            const username = document.getElementById('editName').value;-->
+<!--            const role = document.getElementById('editRole').value;-->
+<!--    -->
+<!--            if (employeeID === "" || username === "" || role === "") {-->
+<!--                alert("Please fill in all fields.");-->
+<!--            } else {-->
+<!--                const updatedUser = {-->
+<!--                    employeeID,-->
+<!--                    username,-->
+<!--                    role-->
+<!--                };-->
+<!--    -->
+<!--                $.ajax({-->
+<!--                    type: 'POST',-->
+<!--                    url: 'editUser.php', // Update with the actual path to your PHP script-->
+<!--                    data: JSON.stringify(updatedUser),-->
+<!--                    contentType: 'application/json',-->
+<!--                    success: function (data) {-->
+<!--                        if (data.success) {-->
+<!--                            users[index].username = username;-->
+<!--                            users[index].role = role;-->
+<!--                            editModal.style.display = 'none';-->
+<!--                            populateTable();-->
+<!--                        } else {-->
+<!--                            alert(data.message);-->
+<!--                        }-->
+<!--                    },-->
+<!--                    error: function (error) {-->
+<!--                        console.error('Error:', error);-->
+<!--                        alert('Failed to edit user.');-->
+<!--                    }-->
+<!--                });-->
+<!--            }-->
+<!--        }-->
+<!--    -->
+<!--        // Function to delete a user-->
+<!--        function deleteUser() {-->
+<!--            const employeeID = document.getElementById('editEmployeeID').value;-->
+<!--    -->
+<!--            $.ajax({-->
+<!--                type: 'POST',-->
+<!--                url: 'deleteUser.php', // Update with the actual path to your PHP script-->
+<!--                data: JSON.stringify({ employeeID }),-->
+<!--                contentType: 'application/json',-->
+<!--                success: function (data) {-->
+<!--                    if (data.success) {-->
+<!--                        users.splice(index, 1);-->
+<!--                        editModal.style.display = 'none';-->
+<!--                        populateTable();-->
+<!--                    } else {-->
+<!--                        alert(data.message);-->
+<!--                    }-->
+<!--                },-->
+<!--                error: function (error) {-->
+<!--                    console.error('Error:', error);-->
+<!--                    alert('Failed to delete user.');-->
+<!--                }-->
+<!--            });-->
+<!--        }-->
+<!--    </script>-->
+
+</head>
+
+<body>
+
+    <!--<span id="logo">whirlpool</span>-->
+    <img id="logo" src="images/logo.jpg" alt="Whirlpool">
+
+    <div id="menu_container">
+        <ul id="gtlm_menu">
+            <li id="homeLink"><a href="./home.html" >Home</a></li>
+            <li id="manageProjectsLink"><a href="./manageprojects.html" >Manage Project</a></li>
+            <li id="groupsLink"><a href="./groups.html" id="groupsLink">Groups</a></li>
+            <li id="userProfileLink"><a href="./userprofile.html" >User Profile</a></li>
+            <li id="userManagementLink"><a href="./usermanage.html" id="userManagementLink">User Management</a></li>
+            <li>|</li>
+            <li id="logoutLink"><a href="./login.html" >Logout</a></li>
+        </ul>
+    </div>
+
+    
+    <div class="pageTitle"><h2>User Management</h2></div>
+    
+    <!--user table-->
+    <div class="users_container">
+        
+        <button id="addUserBtn">Add User</button>
+        <table id="userTable">
+            <tr>
+                <th>Employee ID</th>
+                <th>Username</th>
+                <th>Role</th>
+                <th>Action</th>
+            </tr>
+        </table>
+    </div>
+
+    <!--ADD A NEW USER MODAL WINDOW-->
+    <div id="addModal" class="modal">
+      <div class="modal-content">
+          <h2>Add User</h2>
+          <ul>
+            <li>
+                <label for="newEmployeeID">Employee ID:</label>
+                <input type="text" id="newEmployeeID">
+            </li>
+            <li>
+              <label for="newName">Name:</label>
+              <input type="text" id="newName">
+            </li>
+            <li>
+                <label for="newRole">Role:</label>
+                <select id="newRole">
+                    <option value="Developer">Developer</option>
+                    <option value="Manager">Manager</option>
+                    <option value="Admin">Admin</option>
+                </select>
+            </li>
+          </ul>
+          <button id="saveNewUserBtn" class="button">Save</button>
+          <button id="cancelNewUserBtn" class="button">Cancel</button>
+      </div>
+  </div>
+
+  <!--EDIT A NEW USER MODAL WINDOW-->
+    <div id="editModal" class="modal">
+        <div class="modal-content">
+            <h2>Edit User</h2>
+            <ul>
+              <li>
+                    <label for="editEmployeeID">Employee ID:</label>
+                    <input type="text" id="editEmployeeID">
+              </li>
+              <li>
+                  <label for="editName">Name:</label>
+                  <input type="text" id="editName">
+              </li>
+              <li>
+                  <label for="editRole">Role:</label>                  
+                  <select id="editRole">
+                    <option value="Developer">Developer</option>
+                    <option value="Manager">Manager</option>
+                    <option value="Admin">Admin</option>
+                </select>
+              </li>
+
+                <button id="saveEditBtn">Save</button>
+                <button id="cancelEditUserBtn">Cancel</button>
+            </ul>
+        </div>
+    </div>
+
+    <!--DELETE A NEW USER MODAL WINDOW-->
+    <div id="deleteModal" class="modal">
+        <div class="modal-content">
+            <h2>Delete User</h2>
+            <p>Are you sure you want to delete this user?</p>
+            <button id="confirmDeleteBtn">OK</button>
+            <button id="cancelDeleteBtn">Cancel</button>
+        </div>
+    </div>
+
+    
+</body>
+</html>
